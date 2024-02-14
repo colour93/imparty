@@ -1,0 +1,36 @@
+{
+  "name": "imparty-back",
+  "version": "0.1.0",
+  "description": "自建游戏预约服务平台。 A self-built game reservation service platform.",
+  "scripts": {
+    "dev": "ts-node ./src",
+    "build": "tsc",
+    "start": "node ./dist"
+  },
+  "keywords": [
+    "express",
+    "typeorm",
+    "sqlite"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@types/express": "^4.17.21",
+    "@types/express-session": "^1.17.10",
+    "@types/lodash": "^4.14.202",
+    "@types/node": "^20.11.17",
+    "argon2": "^0.31.2",
+    "express": "^4.18.2",
+    "express-session": "^1.18.0",
+    "lodash": "^4.17.21",
+    "nanoid": "3",
+    "pino": "^8.18.0",
+    "pino-http": "^9.0.0",
+    "pino-pretty": "^10.3.1",
+    "reflect-metadata": "^0.2.1",
+    "sqlite3": "^5.1.7",
+    "tsconfig-paths": "^4.2.0",
+    "typeorm": "^0.3.20",
+    "typescript": "^5.3.3"
+  }
+}
