@@ -1,8 +1,6 @@
 import {
-  BeforeInsert,
   Column,
   Entity,
-  JoinColumn,
   JoinTable,
   ManyToMany,
   ManyToOne,
@@ -10,7 +8,6 @@ import {
 } from "typeorm";
 import { User } from "./User";
 import { Platform } from "./Platform";
-import { getRandomHexString } from "@/util";
 
 @Entity()
 export class Room {
@@ -38,9 +35,4 @@ export class Room {
   @ManyToMany(() => User, (user) => user.rooms)
   @JoinTable()
   users: User[];
-
-  @BeforeInsert()
-  generateId() {
-    this.id = "R".concat(getRandomHexString());
-  }
 }

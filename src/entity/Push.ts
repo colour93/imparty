@@ -1,5 +1,4 @@
-import { getRandomHexString } from "@/util";
-import { BeforeInsert, Column, Entity, PrimaryColumn } from "typeorm";
+import { Column, Entity, PrimaryColumn } from "typeorm";
 
 export type PushType = "platform" | "user";
 
@@ -10,9 +9,4 @@ export class Push {
 
   @Column()
   type: PushType;
-
-  @BeforeInsert()
-  generateId() {
-    this.id = "P".concat(getRandomHexString());
-  }
 }

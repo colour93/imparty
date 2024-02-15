@@ -39,9 +39,9 @@
 
 | 方式 | 路径 | 备注 |
 |:----|:----|:----|
+| GET | /room/list | 当前用户房间列表 |
 | GET | /room/list/:pid | 房间列表 |
 | POST | /room/new/:pid | 新建房间 |
 | PUT | /room/update/:rid | 更新房间信息 |
 | POST | /room/join/:rid | 加入房间 |
-| PUT | /room/update_detail/:rid | 更新加入后用户信息 |
-| PUT | /room/quit/:rid | 退出房间 |
+| POST | /room/quit/:rid | 退出房间 |

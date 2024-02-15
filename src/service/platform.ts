@@ -77,10 +77,7 @@ export const addUserToPlatform = async (userId: string, platformId: string) => {
 };
 
 export const inviteCodeIncrease = async (code: string) => {
-  const inviteCodeDto = await inviteCodeRepo.findOneBy({ code });
-  if (!inviteCodeDto) return false;
-  inviteCodeDto.currentCount++;
-  const result = await inviteCodeRepo.save(inviteCodeDto);
+  const result = await inviteCodeRepo.increment({ code }, "currentCount", 1);
   if (!result) logger.error("invite code update failed");
   return result ? true : false;
 };

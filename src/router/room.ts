@@ -1,13 +1,29 @@
 /**
- * User Router
+ * Room Router
  */
 
+import {
+  createRoom,
+  getCurrentUserRoomList,
+  getPlatformRoomList,
+  joinRoom,
+  quitRoom,
+  updateRoom,
+} from "@/controller/room";
 import { Router } from "express";
 
-const userRouter = Router();
+const roomRouter = Router();
 
-userRouter.get("/", (req, res) => {
-  res.send("Hello");
-});
+roomRouter.get("/list", getCurrentUserRoomList);
 
-export default userRouter;
+roomRouter.get("/list/:pid", getPlatformRoomList);
+
+roomRouter.post("/new/:pid", createRoom);
+
+roomRouter.put("/update/:rid", updateRoom);
+
+roomRouter.post("/join/:rid", joinRoom);
+
+roomRouter.post("/quit/:rid", quitRoom);
+
+export default roomRouter;

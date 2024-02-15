@@ -276,6 +276,7 @@ export const createInviteCode: RequestHandler = async (req, res) => {
     "expiredAt",
     "expiredCount",
   ]);
+  let formFormatted: Record<string, any> = {};
 
   if (
     !form.expiredMode ||
@@ -290,6 +291,7 @@ export const createInviteCode: RequestHandler = async (req, res) => {
       res.send(ResponseCode.BAD_REQUEST);
       return;
     }
+    formFormatted.expiredAt = new Date(form.expiredAt);
   }
 
   if (form.expiredMode === "count") {
@@ -317,6 +319,7 @@ export const createInviteCode: RequestHandler = async (req, res) => {
 
   const result = await inviteCodeRepo.save({
     ...form,
+    ...formFormatted,
     code,
     platform: platformDto,
   });
