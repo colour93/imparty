@@ -12,9 +12,6 @@ export class UserProfile {
   @Column({ nullable: true, type: "blob" })
   avatar?: Buffer;
 
-  @Column({ nullable: true })
-  avatarType?: string;
-
   @OneToOne(() => User, (user) => user.profile)
   user: User;
 }
