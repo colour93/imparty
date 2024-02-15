@@ -11,6 +11,8 @@ import { Platform } from "./Platform";
 export type InviteCodeExpireMode = "date" | "count";
 export type InviteCodeStatus = "enabled" | "disabled";
 
+export const INVITE_CODE_EXPIRE_MODE_ARR = ["date", "count"];
+
 @Entity()
 export class InviteCode {
   @PrimaryColumn()

@@ -13,6 +13,7 @@ import { User } from "./User";
 import { Room } from "./Room";
 
 export type PlatformVisible = "public" | "invite-only" | "private";
+export const PLATFORM_VISIBLE_ARR = ["public", "invite-only", "private"];
 
 @Entity()
 export class Platform {

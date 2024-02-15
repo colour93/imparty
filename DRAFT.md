@@ -32,8 +32,8 @@
 | DELETE | /platform/delete/:pid | 删除某平台 |
 | GET | /platform/invite/:pid/list | 获取某平台邀请码列表 |
 | POST | /platform/invite/:pid/new | 创建某平台邀请 |
-| PUT | /platform/invite/:pid/update/:iid | 更新邀请信息 |
-| DELETE | /platform/invite/:pid/delete/:iid | 删除邀请 |
+| PUT | /platform/invite/:pid/update/:code | 更新邀请信息 |
+| DELETE | /platform/invite/:pid/delete/:code | 删除邀请 |
 
 ### room
 

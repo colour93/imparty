@@ -9,26 +9,40 @@ import _ from "lodash";
 import { In } from "typeorm";
 
 export const getPlatformByInviteCode = async (code: string) => {
-  const inviteCodeDto = await inviteCodeRepo.findOneBy({
-    code,
-    status: "enabled",
-    platform: {
-      visible: In(["public", "invite-only"]),
+  const inviteCodeDto = await inviteCodeRepo.findOne({
+    where: {
+      code,
+      status: "enabled",
+      platform: {
+        visible: In(["public", "invite-only"]),
+      },
     },
+    relations: ["platform"],
   });
 
-  const flag =
-    (inviteCodeDto &&
-      ["invite-only", "public"].includes(inviteCodeDto.platform.visible) &&
-      ((inviteCodeDto.expiredMode === "count" &&
-        (inviteCodeDto.expiredCount ?? 0 <= inviteCodeDto.currentCount)) ||
-        ((inviteCodeDto.expiredMode === "date" &&
-          inviteCodeDto.expiredAt &&
-          inviteCodeDto.expiredAt.getTime() < Date.now()) ??
-          true))) ||
-    !inviteCodeDto
-      ? false
-      : true;
+  let flag = false;
+
+  if (
+    inviteCodeDto &&
+    ["invite-only", "public"].includes(inviteCodeDto.platform.visible)
+  ) {
+    switch (inviteCodeDto.expiredMode) {
+      case "date":
+        flag = inviteCodeDto.expiredAt
+          ? inviteCodeDto.expiredAt?.getTime() > Date.now()
+          : false;
+        break;
+
+      case "count":
+        flag = inviteCodeDto.expiredCount
+          ? inviteCodeDto.currentCount < inviteCodeDto.expiredCount
+          : false;
+        break;
+
+      default:
+        break;
+    }
+  }
 
   const platformDto = flag
     ? inviteCodeDto?.platform

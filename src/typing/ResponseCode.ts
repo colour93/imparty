@@ -9,19 +9,29 @@ const SUCCEED: ResponseBase = {
   msg: "",
 };
 
-const UNAUTHORIZED: ResponseBase = {
-  code: 401,
-  msg: "未登录",
-};
-
-const NOT_FOUND: ResponseBase = {
-  code: 404,
-  msg: "未找到",
+const NOT_MODIFIED: ResponseBase = {
+  code: 304,
+  msg: "无更改",
 };
 
 const BAD_REQUEST: ResponseBase = {
   code: 400,
   msg: "请求错误",
+};
+
+const UNAUTHORIZED: ResponseBase = {
+  code: 401,
+  msg: "未登录",
+};
+
+const FORBIDDEN: ResponseBase = {
+  code: 403,
+  msg: "无权操作",
+};
+
+const NOT_FOUND: ResponseBase = {
+  code: 404,
+  msg: "未找到",
 };
 
 const CONFLICT: ResponseBase = {
@@ -34,11 +44,6 @@ const INTERNAL_ERROR: ResponseBase = {
   msg: "内部错误",
 };
 
-const NOT_MODIFIED: ResponseBase = {
-  code: 304,
-  msg: "无更改",
-};
-
 export const ResponseCode = {
   SUCCEED,
   UNAUTHORIZED,
@@ -47,4 +52,5 @@ export const ResponseCode = {
   CONFLICT,
   INTERNAL_ERROR,
   NOT_MODIFIED,
+  FORBIDDEN,
 };
