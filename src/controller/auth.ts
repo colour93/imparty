@@ -4,7 +4,6 @@
 
 import { userRepo } from "@/repository";
 import { ResponseCode } from "@/typing/ResponseCode";
-import { UserInfo } from "@/typing/User";
 import { compareHashPassword, createHashPassword } from "@/util";
 import logger from "@/util/logger";
 import { idRegex, passwordRegex } from "@/util/regex";
@@ -23,12 +22,12 @@ export const login: RequestHandler = async (req, res) => {
 
   const userDto = await userRepo.findOne({
     where: { id: form.id },
-    relations: ["platforms", "rooms"],
+    relations: ["profile", "platforms", "rooms"],
   });
 
   if (
     !userDto ||
-    !(await compareHashPassword(form.password, userDto.password))
+    !(await compareHashPassword(form.password, userDto.profile.password))
   ) {
     res.send({
       ...ResponseCode.UNAUTHORIZED,
@@ -38,19 +37,20 @@ export const login: RequestHandler = async (req, res) => {
   }
 
   req.session.userId = userDto.id;
-  const user: UserInfo = _.omit(userDto, ["password", "avatar", "avatarType"]);
   res.send({
     ...ResponseCode.SUCCEED,
-    data: user,
+    data: _.omit(userDto, ["profile"]),
   });
 };
 
 export const register: RequestHandler = async (req, res) => {
   const rawData = req.body;
 
-  const form = _.pick(rawData, ["id", "name", "password"]);
+  const form = _.pick(rawData, ["id", "name"]);
 
-  if (!form.id || !form.password) {
+  const password = _.get(rawData, "password");
+
+  if (!form.id || !password) {
     res.send(ResponseCode.BAD_REQUEST);
     return;
   }
@@ -63,7 +63,7 @@ export const register: RequestHandler = async (req, res) => {
     return;
   }
 
-  if (!passwordRegex.test(form.password)) {
+  if (!passwordRegex.test(password)) {
     res.send({
       ...ResponseCode.BAD_REQUEST,
       msg: "密码不符合要求",
@@ -83,7 +83,9 @@ export const register: RequestHandler = async (req, res) => {
 
   const user = await userRepo.save({
     ...form,
-    password: await createHashPassword(form.password),
+    profile: {
+      password: await createHashPassword(password),
+    },
   });
 
   if (!user) {
@@ -96,7 +98,7 @@ export const register: RequestHandler = async (req, res) => {
 
   res.send({
     ...ResponseCode.SUCCEED,
-    data: _.omit(user, ["avatar", "avatarType", "password"]),
+    data: _.omit(user, ["profile"]),
   });
 };
 

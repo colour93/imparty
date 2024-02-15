@@ -2,11 +2,14 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinColumn,
   ManyToMany,
+  OneToOne,
   PrimaryColumn,
 } from "typeorm";
 import { Platform } from "./Platform";
 import { Room } from "./Room";
+import { UserProfile } from "./UserProfile";
 
 @Entity()
 export class User {
@@ -16,14 +19,9 @@ export class User {
   @Column({ nullable: true })
   name?: string;
 
-  @Column()
-  password: string;
-
-  @Column({ nullable: true, type: "blob" })
-  avatar?: Buffer;
-
-  @Column({ nullable: true })
-  avatarType?: string;
+  @OneToOne(() => UserProfile, { cascade: true })
+  @JoinColumn()
+  profile: UserProfile;
 
   @CreateDateColumn()
   createdAt: Date;

@@ -5,7 +5,7 @@
 import { userRepo } from "@/repository";
 import { ResponseCode } from "@/typing/ResponseCode";
 import { RequestHandler } from "express";
-import { UserBaseInfo, UserInfo } from "@/typing/User";
+import { UserBaseInfo } from "@/typing/User";
 import _ from "lodash";
 
 export const getCurrentUser: RequestHandler = async (req, res) => {
@@ -17,14 +17,9 @@ export const getCurrentUser: RequestHandler = async (req, res) => {
   if (!userDto) {
     res.send(ResponseCode.NOT_FOUND);
   } else {
-    const user: UserInfo = _.omit(userDto, [
-      "password",
-      "avatar",
-      "avatarType",
-    ]);
     res.send({
       ...ResponseCode.SUCCEED,
-      data: user,
+      data: userDto,
     });
   }
 };

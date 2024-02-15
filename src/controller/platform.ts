@@ -203,12 +203,7 @@ export const updatePlatform: RequestHandler = async (req, res) => {
   } else {
     res.send({
       ...ResponseCode.SUCCEED,
-      data: _.omit(
-        result,
-        ["owner.password"],
-        ["owner.avatar"],
-        ["owner.avatarType"]
-      ),
+      data: result,
     });
   }
 };

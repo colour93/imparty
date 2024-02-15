@@ -5,12 +5,13 @@ import { Push } from "./entity/Push";
 import { Room } from "./entity/Room";
 import logger from "./util/logger";
 import { InviteCode } from "./entity/IniviteCode";
+import { UserProfile } from "./entity/UserProfile";
 
 export const AppDataSource = new DataSource({
   type: "sqlite",
   database: "data/data.db",
   synchronize: true,
-  entities: [User, Platform, Push, Room, InviteCode],
+  entities: [User, UserProfile, Platform, Push, Room, InviteCode],
   subscribers: [],
   migrations: [],
 });
@@ -20,4 +21,7 @@ export const initAppDataSource = () =>
     .then(() => {
       logger.info("Database initialized succeed");
     })
-    .catch((error) => logger.error("Database initialized failed", error));
+    .catch((error) => {
+      logger.error("Database initialized failed", error);
+      throw error;
+    });
