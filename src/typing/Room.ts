@@ -4,6 +4,7 @@ export interface RoomInfo {
   startAt: string;
   endAt: string;
   total?: number;
+  description?: string;
 }
 
 export interface RoomUpdateInfo {
@@ -12,4 +13,5 @@ export interface RoomUpdateInfo {
   startAt?: string;
   endAt?: string;
   total?: number;
+  description?: string;
 }

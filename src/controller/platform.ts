@@ -39,15 +39,18 @@ export const getCurrentUserPlatformList: RequestHandler = async (req, res) => {
 export const getPlatform: RequestHandler = async (req, res) => {
   const platformDto = await platformRepo.findOne({
     where: { id: req.params.pid },
-    relations: ["rooms"],
+    relations: ["rooms", "rooms.users"],
   });
 
   if (!platformDto) {
     res.send(ResponseCode.NOT_FOUND);
   } else {
+    const resortRooms = platformDto.rooms.sort(
+      (a, b) => b.startAt.getTime() - a.startAt.getTime()
+    );
     res.send({
       ...ResponseCode.SUCCEED,
-      data: platformDto,
+      data: { ...platformDto, rooms: resortRooms },
     });
   }
 };

@@ -22,7 +22,7 @@ export const getCurrentUserRoomList: RequestHandler = async (req, res) => {
 
   const userDto = await userRepo.findOne({
     where: { id },
-    relations: ["rooms"],
+    relations: ["rooms", "rooms.users"],
   });
 
   if (!userDto) {
@@ -51,7 +51,7 @@ export const getPlatformRoomList: RequestHandler = async (req, res) => {
     where: {
       id: pid,
     },
-    relations: ["users", "rooms"],
+    relations: ["rooms", "rooms.users", "users"],
   });
 
   if (!platformDto || !platformDto.users.find((u) => u.id === uid)) {
@@ -59,9 +59,13 @@ export const getPlatformRoomList: RequestHandler = async (req, res) => {
     return;
   }
 
+  const resortRooms = platformDto.rooms.sort(
+    (a, b) => b.startAt.getTime() - a.startAt.getTime()
+  );
+
   res.send({
     ...ResponseCode.SUCCEED,
-    data: platformDto.rooms,
+    data: resortRooms,
   });
 };
 
@@ -81,6 +85,7 @@ export const createRoom: RequestHandler = async (req, res) => {
     "startAt",
     "endAt",
     "total",
+    "description",
   ]);
   let formFormatted: Record<string, any> = {};
 

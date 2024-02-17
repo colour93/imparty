@@ -36,7 +36,7 @@ export class Platform {
   @JoinTable()
   users: User[];
 
-  @OneToMany(() => Room, (room) => room.platform)
+  @OneToMany(() => Room, (room) => room.platform, { cascade: true })
   @JoinColumn()
   rooms: Room[];
 

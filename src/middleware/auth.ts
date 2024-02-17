@@ -6,7 +6,7 @@ import { userRepo } from "@/repository";
 import { ResponseCode } from "@/typing/ResponseCode";
 import { RequestHandler } from "express";
 
-const ROUTES_WHITE_LIST = ["/auth"];
+const ROUTES_WHITE_LIST = ["/auth", "/user/avatar"];
 
 export const authMiddleware: RequestHandler = async (req, res, next) => {
   // white list

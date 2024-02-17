@@ -30,9 +30,12 @@ export class Room {
   name?: string;
 
   @Column({ nullable: true })
+  description?: string;
+
+  @Column({ nullable: true })
   total?: number;
 
-  @ManyToMany(() => User, (user) => user.rooms)
+  @ManyToMany(() => User, (user) => user.rooms, { cascade: true })
   @JoinTable()
   users: User[];
 }

@@ -1,4 +1,5 @@
 import express from "express";
+import cors from "cors";
 import Pino from "pino-http";
 import logger from "@/util/logger";
 import { initAppDataSource } from "./data-source";
@@ -23,6 +24,24 @@ declare module "express-session" {
 
 const pino = Pino();
 const app = express();
+
+const allowOrigins = ["http://localhost:24933", "https://imparty.cn"];
+
+app.use(
+  cors({
+    origin: (o, cb) => {
+      if (!o) return cb(null, true);
+      if (allowOrigins.includes(o)) return cb(null, true);
+      return cb(
+        new Error(
+          "The CORS policy for this site does not allow access from the specified Origin."
+        ),
+        false
+      );
+    },
+    credentials: true,
+  })
+);
 
 app.use(express.json());
 

@@ -15,7 +15,7 @@ import { join } from "path";
 export const getCurrentUser: RequestHandler = async (req, res) => {
   const userDto = await userRepo.findOne({
     where: { id: req.session.userId },
-    relations: ["platforms", "rooms"],
+    relations: ["platforms", "rooms", "rooms.users"],
   });
 
   if (!userDto) {
