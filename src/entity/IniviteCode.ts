@@ -18,7 +18,11 @@ export class InviteCode {
   @PrimaryColumn()
   code: string;
 
-  @ManyToOne(() => Platform)
+  @ManyToOne(() => Platform, {
+    cascade: true,
+    onDelete: "CASCADE",
+    onUpdate: "CASCADE",
+  })
   @JoinColumn()
   platform: Platform;
 

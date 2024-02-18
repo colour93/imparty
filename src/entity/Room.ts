@@ -14,7 +14,11 @@ export class Room {
   @PrimaryColumn()
   id: string;
 
-  @ManyToOne(() => Platform, (platform) => platform.rooms, { cascade: true })
+  @ManyToOne(() => Platform, (platform) => platform.rooms, {
+    cascade: true,
+    onDelete: "CASCADE",
+    onUpdate: "CASCADE",
+  })
   platform: Platform;
 
   @Column()
