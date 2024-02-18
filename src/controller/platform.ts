@@ -39,7 +39,7 @@ export const getCurrentUserPlatformList: RequestHandler = async (req, res) => {
 export const getPlatform: RequestHandler = async (req, res) => {
   const platformDto = await platformRepo.findOne({
     where: { id: req.params.pid },
-    relations: ["rooms", "rooms.users"],
+    relations: ["rooms", "rooms.users", "owner"],
   });
 
   if (!platformDto) {
@@ -286,7 +286,7 @@ export const createInviteCode: RequestHandler = async (req, res) => {
 
   if (form.expiredMode === "date") {
     if (!form.expiredAt || new Date(form.expiredAt).getTime() < Date.now()) {
-      res.send(ResponseCode.BAD_REQUEST);
+      res.send({ ...ResponseCode.BAD_REQUEST, msg: "结束时间不应在过去" });
       return;
     }
     formFormatted.expiredAt = new Date(form.expiredAt);
@@ -294,7 +294,7 @@ export const createInviteCode: RequestHandler = async (req, res) => {
 
   if (form.expiredMode === "count") {
     if (!form.expiredCount || form.expiredCount <= 0) {
-      res.send(ResponseCode.BAD_REQUEST);
+      res.send({ ...ResponseCode.BAD_REQUEST, msg: "次数只能为正整数" });
       return;
     }
   }

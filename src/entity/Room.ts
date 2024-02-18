@@ -14,7 +14,7 @@ export class Room {
   @PrimaryColumn()
   id: string;
 
-  @ManyToOne(() => Platform, (platform) => platform.rooms)
+  @ManyToOne(() => Platform, (platform) => platform.rooms, { cascade: true })
   platform: Platform;
 
   @Column()
@@ -35,7 +35,7 @@ export class Room {
   @Column({ nullable: true })
   total?: number;
 
-  @ManyToMany(() => User, (user) => user.rooms, { cascade: true })
+  @ManyToMany(() => User, (user) => user.rooms)
   @JoinTable()
   users: User[];
 }
