@@ -53,7 +53,7 @@ app.use(
     saveUninitialized: true,
     cookie: {
       sameSite: "none",
-      secure: "auto",
+      secure: true,
     },
   })
 );
