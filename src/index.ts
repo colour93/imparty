@@ -51,10 +51,6 @@ app.use(
     secret: config.session_secret,
     resave: false,
     saveUninitialized: true,
-    cookie: {
-      sameSite: "none",
-      secure: true,
-    },
   })
 );
 
