@@ -9,6 +9,7 @@ import session from "express-session";
 import { readFileSync } from "fs";
 import { join } from "path";
 import { Config } from "./typing/Config";
+import { ResponseCode } from "./typing/ResponseCode";
 
 preload();
 
@@ -56,6 +57,10 @@ app.use(
 // app.use(pino);
 
 app.use(rootRouter);
+
+app.use((_, res) => {
+  res.status(404).send({ ...ResponseCode.NOT_FOUND, msg: "路径不存在" });
+});
 
 const PORT = 24932;
 
