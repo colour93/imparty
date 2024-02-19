@@ -50,7 +50,10 @@ app.use(
   session({
     secret: config.session_secret,
     resave: false,
-    saveUninitialized: true,
+    saveUninitialized: false,
+    cookie: {
+      maxAge: 7 * 24 * 60 * 60,
+    },
   })
 );
 

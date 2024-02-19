@@ -1,7 +1,8 @@
 {
-  "name": "imparty-back",
-  "version": "0.1.0",
+  "name": "imparty",
+  "version": "0.1.1",
   "description": "自建游戏预约服务平台。 A self-built game reservation service platform.",
+  "repository": "https://github.com/colour93/imparty",
   "scripts": {
     "dev": "ts-node ./src",
     "build": "tsc",

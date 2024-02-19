@@ -8,11 +8,19 @@ import userRouter from "./user";
 import authRouter from "./auth";
 import platformRouter from "./platform";
 import roomRouter from "./room";
+import { ResponseCode } from "@/typing/ResponseCode";
 
 const rootRouter = Router();
 
-rootRouter.get("/", (req, res) => {
-  res.send("Hello");
+rootRouter.get("/", (_, res) => {
+  res.send({
+    ...ResponseCode.SUCCEED,
+    data: {
+      app: process.env.npm_package_name,
+      version: process.env.npm_package_version,
+      repository: process.env.npm_package_repository,
+    },
+  });
 });
 
 rootRouter.use(authMiddleware);
