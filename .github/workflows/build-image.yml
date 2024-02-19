@@ -23,4 +23,4 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           push: true
-          tags: ${{secrets.DOCKER_HUB_USERNAM}}/imparty:latest
+          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/imparty:latest
