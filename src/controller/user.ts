@@ -118,6 +118,6 @@ export const getUserAvatar: RequestHandler = async (req, res) => {
     .set("Content-Type", "image/png")
     .send(
       userProfileDto?.avatar ??
-        readFileSync(join("src", "asset", "default_avatar.png"))
+        readFileSync(join("src", "asset", "default_avatar.jpg"))
     );
 };

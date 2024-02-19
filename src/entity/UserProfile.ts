@@ -12,10 +12,6 @@ export class UserProfile {
   @Column({ nullable: true, type: "blob" })
   avatar?: Buffer;
 
-  @OneToOne(() => User, (user) => user.profile, {
-    cascade: true,
-    onDelete: "CASCADE",
-    onUpdate: "CASCADE",
-  })
+  @OneToOne(() => User, (user) => user.profile)
   user: User;
 }
