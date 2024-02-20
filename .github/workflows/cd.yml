@@ -18,7 +18,8 @@ jobs:
           host: ${{ secrets.CD_SSH_HOST }}
           username: ${{ secrets.CD_SSH_USER }}
           key: ${{ secrets.CD_SSH_KEY }}
-          script: docker container stop imparty
+          script: |
+            docker container stop imparty
             docker container rm imparty
             docker pull colour93/imparty:latest
             docker run -p 24932:24932 -v ${{ vars.IMPARTY_DATA_PATH }}:/usr/src/app/data --name="imparty" -d --restart=on-failure:3 colour93/imparty:latest
