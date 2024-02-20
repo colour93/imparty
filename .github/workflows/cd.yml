@@ -12,30 +12,13 @@ jobs:
     runs-on: ubuntu-latest
     environment: CD
     steps:
-      - name: Configure SSH
-        run: |
-          mkdir -p ~/.ssh/
-          echo "$SSH_KEY" > ~/.ssh/server.key
-          chmod 600 ~/.ssh/server.key
-          cat >>~/.ssh/config <<END
-          Host server
-          HostName $SSH_HOST
-          User $SSH_USER
-          IdentityFile ~/.ssh/server.key
-          StrictHostKeyChecking no
-          END
-        env:
-          SSH_USER: ${{ secrets.CD_SSH_USER }}
-          SSH_KEY: ${{ secrets.CD_SSH_KEY }}
-          SSH_HOST: ${{ secrets.CD_SSH_HOST }}
-
-      - name: Stop & delete the container
-        run: ssh server 'docker container stop imparty'
-          ssh server 'docker container rm imparty'
-
-      - name: Pull docker image
-        run: ssh server 'docker pull colour93/imparty:latest'
-
-      - name: Run container
-        if: ${{ always() }}
-        run: ssh server 'docker run -p 24932:24932 -v ${{ vars.IMPARTY_DATA_PATH }}:/usr/src/app/data --name="imparty" -d --restart=on-failure:3 colour93/imparty:latest'
+      - name: Executing remote ssh commands
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.CD_SSH_HOST }}
+          username: ${{ secrets.CD_SSH_USER }}
+          key: ${{ secrets.CD_SSH_KEY }}
+          script: docker container stop imparty
+            docker container rm imparty
+            docker pull colour93/imparty:latest
+            docker run -p 24932:24932 -v ${{ vars.IMPARTY_DATA_PATH }}:/usr/src/app/data --name="imparty" -d --restart=on-failure:3 colour93/imparty:latest
