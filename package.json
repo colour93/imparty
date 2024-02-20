@@ -1,6 +1,6 @@
 {
   "name": "imparty",
-  "version": "0.1.1",
+  "version": "0.1.1-fixed",
   "description": "自建游戏预约服务平台。 A self-built game reservation service platform.",
   "repository": "https://github.com/colour93/imparty",
   "scripts": {
@@ -13,7 +13,7 @@
     "typeorm",
     "sqlite"
   ],
-  "author": "",
+  "author": "colour93<x@fur93.icu>",
   "license": "ISC",
   "dependencies": {
     "@types/cors": "^2.8.17",
