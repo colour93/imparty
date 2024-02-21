@@ -2,9 +2,8 @@
  * Room Controller
  */
 
-import { Platform } from "@/entity/Platform";
-import { Room } from "@/entity/Room";
 import { platformRepo, roomRepo, userRepo } from "@/repository";
+import { pushRoomCreate } from "@/service/push";
 import { ResponseCode } from "@/typing/ResponseCode";
 import { RoomInfo, RoomUpdateInfo } from "@/typing/Room";
 import { getRandomHexString } from "@/util";
@@ -132,6 +131,7 @@ export const createRoom: RequestHandler = async (req, res) => {
     res.send(ResponseCode.INTERNAL_ERROR);
     logger.error("room create failed", req.path, req.body, req.session);
   } else {
+    pushRoomCreate(result);
     res.send({
       ...ResponseCode.SUCCEED,
       data: result,

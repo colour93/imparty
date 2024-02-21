@@ -11,6 +11,7 @@ import {
 } from "typeorm";
 import { User } from "./User";
 import { Room } from "./Room";
+import { PushChannel } from "./PushChannel";
 
 export type PlatformVisible = "public" | "invite-only" | "private";
 export const PLATFORM_VISIBLE_ARR = ["public", "invite-only", "private"];
@@ -39,6 +40,11 @@ export class Platform {
   @OneToMany(() => Room, (room) => room.platform)
   @JoinColumn()
   rooms: Room[];
+
+  @OneToMany(() => PushChannel, (pushChannel) => pushChannel.platform)
+  @JoinColumn()
+  @JoinColumn()
+  pushChannels: PushChannel[];
 
   @CreateDateColumn()
   createdAt: Date;

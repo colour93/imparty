@@ -15,6 +15,7 @@ import {
   updateInviteCode,
   updatePlatform,
 } from "@/controller/platform";
+import { createPushChannel } from "@/controller/pushChannel";
 import { Router } from "express";
 
 const platformRouter = Router();
@@ -40,5 +41,7 @@ platformRouter.post("/invite/:pid/new", createInviteCode);
 platformRouter.put("/invite/:pid/update/:code", updateInviteCode);
 
 platformRouter.delete("/invite/:pid/delete/:code", deleteInviteCode);
+
+platformRouter.post("/push/:pid/new", createPushChannel);
 
 export default platformRouter;
