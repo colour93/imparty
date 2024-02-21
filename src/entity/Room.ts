@@ -37,6 +37,9 @@ export class Room {
   description?: string;
 
   @Column({ nullable: true })
+  link?: string;
+
+  @Column({ nullable: true })
   total?: number;
 
   @ManyToMany(() => User, (user) => user.rooms)

@@ -85,6 +85,7 @@ export const createRoom: RequestHandler = async (req, res) => {
     "endAt",
     "total",
     "description",
+    "link",
   ]);
   let formFormatted: Record<string, any> = {};
 
@@ -155,6 +156,8 @@ export const updateRoom: RequestHandler = async (req, res) => {
     "startAt",
     "endAt",
     "total",
+    "description",
+    "link",
   ]);
   let formFormatted: Record<string, any> = {};
 

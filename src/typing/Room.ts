@@ -1,6 +1,7 @@
 export interface RoomInfo {
   name?: string;
   game: string;
+  link?: string;
   startAt: string;
   endAt: string;
   total?: number;
@@ -10,6 +11,7 @@ export interface RoomInfo {
 export interface RoomUpdateInfo {
   name?: string;
   game?: string;
+  link?: string;
   startAt?: string;
   endAt?: string;
   total?: number;
