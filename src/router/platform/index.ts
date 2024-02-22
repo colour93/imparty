@@ -3,19 +3,17 @@
  */
 
 import {
-  createInviteCode,
   createPlatform,
-  deleteInviteCode,
   deletePlatform,
   getCurrentUserPlatformList,
-  getInviteCodeListByPlatform,
   getInviteInfo,
   getPlatform,
   joinInvite,
-  updateInviteCode,
   updatePlatform,
 } from "@/controller/platform";
 import { Router } from "express";
+import inviteRouter from "./invite";
+import pushRouter from "./push";
 
 const platformRouter = Router();
 
@@ -33,12 +31,8 @@ platformRouter.put("/update/:pid", updatePlatform);
 
 platformRouter.delete("/delete/:pid", deletePlatform);
 
-platformRouter.get("/invite/:pid/list", getInviteCodeListByPlatform);
+platformRouter.use("/invite", inviteRouter);
 
-platformRouter.post("/invite/:pid/new", createInviteCode);
-
-platformRouter.put("/invite/:pid/update/:code", updateInviteCode);
-
-platformRouter.delete("/invite/:pid/delete/:code", deleteInviteCode);
+platformRouter.use("/push", pushRouter);
 
 export default platformRouter;

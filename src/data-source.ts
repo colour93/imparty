@@ -1,7 +1,7 @@
 import { DataSource } from "typeorm";
 import { User } from "./entity/User";
 import { Platform } from "./entity/Platform";
-import { Push } from "./entity/Push";
+import { PushChannel } from "./entity/PushChannel";
 import { Room } from "./entity/Room";
 import logger from "./util/logger";
 import { InviteCode } from "./entity/IniviteCode";
@@ -11,7 +11,7 @@ export const AppDataSource = new DataSource({
   type: "sqlite",
   database: "data/data.db",
   synchronize: true,
-  entities: [User, UserProfile, Platform, Push, Room, InviteCode],
+  entities: [User, UserProfile, Platform, PushChannel, Room, InviteCode],
   subscribers: [],
   migrations: [],
 });
