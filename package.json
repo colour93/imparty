@@ -1,6 +1,6 @@
 {
   "name": "imparty",
-  "version": "0.1.1-fixed",
+  "version": "0.1.2",
   "description": "自建游戏预约服务平台。 A self-built game reservation service platform.",
   "repository": "https://github.com/colour93/imparty",
   "scripts": {
@@ -24,6 +24,7 @@
     "@types/node": "^20.11.17",
     "@types/ws": "^8.5.10",
     "argon2": "^0.31.2",
+    "async-validator": "^4.2.5",
     "axios": "^1.6.7",
     "cors": "^2.8.5",
     "express": "^4.18.2",
@@ -41,7 +42,6 @@
     "tsconfig-paths": "^4.2.0",
     "typeorm": "^0.3.20",
     "typescript": "^5.3.3",
-    "validate": "^5.2.0",
     "ws": "^8.16.0"
   },
   "devDependencies": {

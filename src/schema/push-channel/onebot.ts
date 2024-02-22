@@ -1,20 +1,18 @@
 import { httpAndWsRegex } from "@/util/regex";
-import Schema from "validate";
+import Schema from "async-validator";
 
 export const PushChannelOneBotSchema = new Schema({
   host: {
-    type: String,
+    type: "string",
     required: true,
-    match: httpAndWsRegex,
+    pattern: httpAndWsRegex,
   },
   accessToken: {
-    type: String,
+    type: "string",
     required: false,
   },
   groups: {
-    type: Array,
-    each: {
-      type: Number,
-    },
+    type: "array",
+    defaultField: { type: "number" },
   },
 });

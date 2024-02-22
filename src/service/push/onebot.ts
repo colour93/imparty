@@ -41,11 +41,11 @@ const sendMessage = (client: WebSocket, message: string, groups: number[]) => {
   });
 };
 
-export const pushToOneBot = (config: string, content: string) => {
+export const pushToOneBot = async (config: string, content: string) => {
   try {
     const configFormatted: PushChannelOneBot = JSON.parse(config);
 
-    if (PushChannelOneBotSchema.validate(configFormatted).length != 0) return;
+    await PushChannelOneBotSchema.validate(configFormatted);
 
     const { host, accessToken, groups } = configFormatted;
 
