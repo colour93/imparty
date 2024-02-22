@@ -23,11 +23,6 @@ const sendMessage = (client: WebSocket, message: string, groups: number[]) => {
     })
   );
 
-  client.on("error", (err) => {
-    logger.error("push onebot error", err);
-    client.close();
-  });
-
   client.on("message", (rawData) => {
     const data = JSON.parse(rawData.toString());
 
@@ -59,6 +54,11 @@ export const pushToOneBot = async (config: string, content: string) => {
         : {};
 
       const client = new WebSocket(host, extra);
+
+      client.on("error", (err) => {
+        logger.error("push onebot error", err);
+        client.close();
+      });
 
       client.on("open", () => {
         sendMessage(client, content, groups);
