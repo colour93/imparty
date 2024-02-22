@@ -14,7 +14,7 @@ const getPushChannels = async (platformId: string) => {
   });
 };
 
-const pushContent = async (platformId: string, content: string) => {
+export const pushContent = async (platformId: string, content: string) => {
   const channels = await getPushChannels(platformId);
   channels.forEach((channel) => {
     switch (channel.type) {

@@ -56,7 +56,7 @@ export const pushToOneBot = async (config: string, content: string) => {
       const client = new WebSocket(host, extra);
 
       client.on("error", (err) => {
-        logger.error("push onebot error", err);
+        logger.error("push onebot ws connect error", err, host);
         client.close();
       });
 
@@ -65,6 +65,7 @@ export const pushToOneBot = async (config: string, content: string) => {
       });
     }
   } catch (error) {
+    logger.error("push onebot error");
     return;
   }
 };

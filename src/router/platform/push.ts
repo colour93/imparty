@@ -6,11 +6,14 @@ import {
   createPushChannel,
   deletePushChannel,
   getPushChannelByPlatform,
+  pushTestContent,
   updatePushChannel,
 } from "@/controller/pushChannel";
 import { Router } from "express";
 
 const pushRouter = Router();
+
+pushRouter.post("/:pid/test", pushTestContent);
 
 pushRouter.get("/:pid/list", getPushChannelByPlatform);
 

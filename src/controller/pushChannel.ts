@@ -4,6 +4,7 @@
 
 import { platformRepo, pushChannelRepo } from "@/repository";
 import { PushChannelOneBotSchema } from "@/schema/push-channel/onebot";
+import { pushContent } from "@/service/push";
 import { PushChannelUpdateInfo } from "@/typing/PushChannel";
 import { ResponseCode } from "@/typing/ResponseCode";
 import logger from "@/util/logger";
@@ -214,4 +215,33 @@ export const deletePushChannel: RequestHandler = async (req, res) => {
       data: result,
     });
   }
+};
+
+export const pushTestContent: RequestHandler = async (req, res) => {
+  const uid = req.session.userId;
+  const { pid } = req.params;
+
+  if (!uid || !pid) {
+    res.send(ResponseCode.BAD_REQUEST);
+    return;
+  }
+
+  const platformDto = await platformRepo.findOne({
+    where: {
+      id: pid,
+      owner: {
+        id: uid,
+      },
+    },
+    relations: ["owner"],
+  });
+
+  if (!platformDto) {
+    res.send(ResponseCode.NOT_FOUND);
+    return;
+  }
+
+  pushContent(pid, "这是一条测试信息");
+
+  res.send(ResponseCode.SUCCEED);
 };
