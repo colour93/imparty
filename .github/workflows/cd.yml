@@ -22,4 +22,4 @@ jobs:
             docker container stop imparty
             docker container rm imparty
             docker pull colour93/imparty:latest
-            docker run -p 24932:24932 -v ${{ vars.IMPARTY_DATA_PATH }}:/usr/src/app/data --name="imparty" -d --restart=on-failure:3 --network host -e IMPARTY_FRONT_URL=${{ vars.IMPARTY_FRONT_URL }} colour93/imparty:latest
+            docker run -p 24932:24932 -v ${{ vars.IMPARTY_DATA_PATH }}:/usr/src/app/data --name="imparty" -d --restart=on-failure:3 --network host -e IMPARTY_FRONT_URL=${{ vars.IMPARTY_FRONT_URL }} -e TZ=Asia/Shanghai colour93/imparty:latest

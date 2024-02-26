@@ -18,7 +18,6 @@ import { idRegex } from "@/util/regex";
 import { RequestHandler } from "express";
 import _ from "lodash";
 import { nanoid } from "nanoid";
-import { In } from "typeorm";
 
 export const getCurrentUserPlatformList: RequestHandler = async (req, res) => {
   const userDto = await userRepo.findOne({
@@ -39,18 +38,15 @@ export const getCurrentUserPlatformList: RequestHandler = async (req, res) => {
 export const getPlatform: RequestHandler = async (req, res) => {
   const platformDto = await platformRepo.findOne({
     where: { id: req.params.pid },
-    relations: ["rooms", "rooms.users", "owner"],
+    relations: ["rooms", "owner"],
   });
 
   if (!platformDto) {
     res.send(ResponseCode.NOT_FOUND);
   } else {
-    const resortRooms = platformDto.rooms.sort(
-      (a, b) => b.startAt.getTime() - a.startAt.getTime()
-    );
     res.send({
       ...ResponseCode.SUCCEED,
-      data: { ...platformDto, rooms: resortRooms },
+      data: platformDto,
     });
   }
 };

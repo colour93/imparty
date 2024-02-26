@@ -4,6 +4,7 @@
 
 import {
   createRoom,
+  deleteRoom,
   getCurrentUserRoomList,
   getPlatformRoomList,
   joinRoom,
@@ -25,5 +26,7 @@ roomRouter.put("/update/:rid", updateRoom);
 roomRouter.post("/join/:rid", joinRoom);
 
 roomRouter.post("/quit/:rid", quitRoom);
+
+roomRouter.delete("/delete/:rid", deleteRoom);
 
 export default roomRouter;

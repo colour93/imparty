@@ -10,6 +10,7 @@ import { getRandomHexString } from "@/util";
 import logger from "@/util/logger";
 import { RequestHandler } from "express";
 import _ from "lodash";
+import { LessThan, MoreThan } from "typeorm";
 
 export const getCurrentUserRoomList: RequestHandler = async (req, res) => {
   const id = req.session.userId;
@@ -39,32 +40,56 @@ export const getCurrentUserRoomList: RequestHandler = async (req, res) => {
 
 export const getPlatformRoomList: RequestHandler = async (req, res) => {
   const uid = req.session.userId;
-  const pid = req.params.pid;
+  const { pid } = req.params;
+
+  const { status, sort, key } = req.query;
 
   if (!uid || !pid) {
     res.send(ResponseCode.BAD_REQUEST);
     return;
   }
 
-  const platformDto = await platformRepo.findOne({
-    where: {
-      id: pid,
-    },
-    relations: ["rooms", "rooms.users", "users"],
-  });
+  let extraFilter = {};
+  switch (status) {
+    case "all":
+      extraFilter = {};
+      break;
 
-  if (!platformDto || !platformDto.users.find((u) => u.id === uid)) {
-    res.send(ResponseCode.NOT_FOUND);
-    return;
+    case "expired":
+      extraFilter = {
+        endAt: LessThan(new Date()),
+      };
+      break;
+
+    case "active":
+    default:
+      extraFilter = {
+        endAt: MoreThan(new Date()),
+      };
+      break;
   }
 
-  const resortRooms = platformDto.rooms.sort(
-    (a, b) => b.startAt.getTime() - a.startAt.getTime()
-  );
+  const roomDtoList = await roomRepo
+    .find({
+      where: {
+        platform: {
+          id: pid,
+          users: {
+            id: uid,
+          },
+        },
+        ...extraFilter,
+      },
+      order: {
+        [(key as string | undefined) ?? "endAt"]: sort ?? "DESC",
+      },
+      relations: ["platform", "platform.users", "users"],
+    })
+    .then((data) => data.map((item) => _.omit(item, ["platform"])));
 
   res.send({
     ...ResponseCode.SUCCEED,
-    data: resortRooms,
+    data: roomDtoList,
   });
 };
 
@@ -305,6 +330,46 @@ export const quitRoom: RequestHandler = async (req, res) => {
   if (!result) {
     res.send(ResponseCode.INTERNAL_ERROR);
     logger.error("room quit failed", req.path, req.session);
+  } else {
+    res.send({ ...ResponseCode.SUCCEED, data: result });
+  }
+};
+
+export const deleteRoom: RequestHandler = async (req, res) => {
+  const uid = req.session.userId;
+  const { rid } = req.params;
+
+  if (!uid || !rid) {
+    res.send(ResponseCode.BAD_REQUEST);
+    return;
+  }
+
+  const roomDto = await roomRepo.findOne({
+    where: {
+      id: rid,
+      platform: {
+        users: {
+          id: uid,
+        },
+      },
+    },
+    relations: ["platform", "platform.users"],
+  });
+
+  if (!roomDto) {
+    res.send({
+      ...ResponseCode.NOT_FOUND,
+      msg: "房间不存在或不在对应平台中",
+    });
+    return;
+  }
+
+  const result = await roomRepo.delete({
+    id: roomDto.id,
+  });
+  if (!result) {
+    res.send(ResponseCode.INTERNAL_ERROR);
+    logger.error("room delete failed", req.path, req.session);
   } else {
     res.send({ ...ResponseCode.SUCCEED, data: result });
   }
